@@ -114,7 +114,7 @@ class FDDataset(Dataset):
 
             image = np.transpose(image, (2, 0, 1))
             image = image.astype(np.float32)
-            image = image.reshape([self.channels * 3, self.image_size, self.image_size])
+            image = image.reshape([self.channels * 1, self.image_size, self.image_size])
             image = image / 255.0
 
             label = int(label)
