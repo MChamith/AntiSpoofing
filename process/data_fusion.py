@@ -17,7 +17,7 @@ class FDDataset(Dataset):
         self.modality = modality
         self.balance = balance
 
-        self.channels = 1
+        self.channels = 3
         self.train_image_path = TRN_IMGS_DIR
         self.test_image_path = TST_IMGS_DIR
         self.image_size = image_size
@@ -98,9 +98,9 @@ class FDDataset(Dataset):
             ycrcblbp = cv2.resize(ycrcblbp, (self.image_size, self.image_size))
             lbp = cv2.resize(lbp, (self.image_size, self.image_size))
 
-            image = np.concatenate([color.reshape([self.image_size, self.image_size, 1]),
-                                    ycrcblbp.reshape([self.image_size, self.image_size, 1]),
-                                    lbp.reshape([self.image_size, self.image_size, 1])],
+            image = np.concatenate([color.reshape([self.image_size, self.image_size, 3]),
+                                    ycrcblbp.reshape([self.image_size, self.image_size, 3]),
+                                    lbp.reshape([self.image_size, self.image_size, 3])],
                                    axis=2)
 
             if random.randint(0, 1) == 0:
