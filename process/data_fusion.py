@@ -89,7 +89,7 @@ class FDDataset(Dataset):
             color = color_augumentor(color, target_shape=(self.image_size, self.image_size, 3))
             depth = color_augumentor(depth, target_shape=(self.image_size, self.image_size, 3))
             ir = color_augumentor(ir, target_shape=(self.image_size, self.image_size, 3))
-
+            print('color shape ' + str(color.shape))
             color = cv2.cvtColor(color, cv2.COLOR_BGR2GRAY)
             ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
             ycrcblbp = calc_lbp(ycrcb[:, :, 1])
