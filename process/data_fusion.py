@@ -92,13 +92,14 @@ class FDDataset(Dataset):
 
             color = cv2.cvtColor(color, cv2.COLOR_BGR2GRAY)
             ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
-            lbp = calc_lbp(ir)
+            ycrcblbp = calc_lbp(ycrcb[:, :, 1])
+            lbp = calc_lbp(cv2.cvtColor(ir, cv2.COLOR_BGR2GRAY))
             color = cv2.resize(color, (self.image_size, self.image_size))
-            ycrcb = cv2.resize(ycrcb, (self.image_size, self.image_size))
+            ycrcblbp = cv2.resize(ycrcblbp, (self.image_size, self.image_size))
             lbp = cv2.resize(lbp, (self.image_size, self.image_size))
 
             image = np.concatenate([color.reshape([self.image_size, self.image_size, 1]),
-                                    ycrcb.reshape([self.image_size, self.image_size, 1]),
+                                    ycrcblbp.reshape([self.image_size, self.image_size, 1]),
                                     lbp.reshape([self.image_size, self.image_size, 1])],
                                    axis=2)
 
