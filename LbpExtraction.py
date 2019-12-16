@@ -3,6 +3,7 @@ from skimage import feature
 
 
 def calc_lbp(img):
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     lbp = feature.local_binary_pattern(img, 8, 1, method='default')
     lbp = lbp.astype('uint8')
     # lbp = feature.local_binary_pattern(hsv[:, :, 1], 8,
