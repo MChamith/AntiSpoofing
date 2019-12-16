@@ -66,9 +66,9 @@ class FusionNet(nn.Module):
     def forward(self, x):
         batch_size,C,H,W = x.shape
 
-        color = x[:, 0:3,:,:]
-        depth = x[:, 3:6,:,:]
-        ir = x[:, 6:9,:,:]
+        color = x[:, 0:1,:,:]
+        depth = x[:, 1:2,:,:]
+        ir = x[:, 2:3,:,:]
 
         color_feas = self.color_moudle.forward_res3(color)
         depth_feas = self.depth_moudle.forward_res3(depth)
