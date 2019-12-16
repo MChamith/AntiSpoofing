@@ -90,14 +90,13 @@ class FDDataset(Dataset):
             depth = color_augumentor(depth, target_shape=(self.image_size, self.image_size, 3))
             ir = color_augumentor(ir, target_shape=(self.image_size, self.image_size, 3))
 
-            gray = cv2.cvtColor(color, cv2.COLOR_BGR2GRAY)
             ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
             lbp = calc_lbp(ir)
-            gray = cv2.resize(gray, (self.image_size, self.image_size))
+            color = cv2.resize(color, (self.image_size, self.image_size))
             ycrcb = cv2.resize(ycrcb, (self.image_size, self.image_size))
             lbp = cv2.resize(lbp, (self.image_size, self.image_size))
 
-            image = np.concatenate([gray.reshape([self.image_size, self.image_size, 3]),
+            image = np.concatenate([color.reshape([self.image_size, self.image_size, 3]),
                                     ycrcb.reshape([self.image_size, self.image_size, 3]),
                                     lbp.reshape([self.image_size, self.image_size, 3])],
                                    axis=2)
