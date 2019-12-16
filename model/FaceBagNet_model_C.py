@@ -20,7 +20,7 @@ class Net(nn.Module):
         self.load_state_dict(state_dict)
         print('load: '+pretrain_file)
 
-    def __init__(self, num_class=2, id_class = 300, is_first_bn = False):
+    def __init__(self, num_class=2, id_class = 300, is_first_bn = True):
         super(Net,self).__init__()
 
         self.is_first_bn = is_first_bn
