@@ -3,15 +3,17 @@ import torch
 from utils import *
 from process.augmentation import *
 from process.data_helper import *
+from LbpExtraction import calc_lbp
+
 
 class FDDataset(Dataset):
-    def __init__(self, mode, modality='color', fold_index='<NIL>', image_size=128, augment = None, balance = True):
+    def __init__(self, mode, modality='color', fold_index='<NIL>', image_size=128, augment=None, balance=True):
         super(FDDataset, self).__init__()
-        print('fold: '+str(fold_index))
+        print('fold: ' + str(fold_index))
         print(modality)
 
         self.augment = augment
-        self.mode       = mode
+        self.mode = mode
         self.modality = modality
         self.balance = balance
 
@@ -21,7 +23,7 @@ class FDDataset(Dataset):
         self.image_size = image_size
         self.fold_index = fold_index
 
-        self.set_mode(self.mode,self.fold_index)
+        self.set_mode(self.mode, self.fold_index)
 
     def set_mode(self, mode, fold_index):
         self.mode = mode
@@ -50,7 +52,6 @@ class FDDataset(Dataset):
 
         print(self.num_data)
 
-
     def __getitem__(self, index):
 
         if self.fold_index is None:
@@ -59,12 +60,12 @@ class FDDataset(Dataset):
 
         if self.mode == 'train':
             if self.balance:
-                if random.randint(0,1)==0:
+                if random.randint(0, 1) == 0:
                     tmp_list = self.train_list[0]
                 else:
                     tmp_list = self.train_list[1]
 
-                pos = random.randint(0,len(tmp_list)-1)
+                pos = random.randint(0, len(tmp_list) - 1)
                 color, depth, ir, label = tmp_list[pos]
             else:
                 color, depth, ir, label = self.train_list[index]
@@ -73,29 +74,32 @@ class FDDataset(Dataset):
             color, depth, ir, label = self.val_list[index]
 
         elif self.mode == 'test':
-            color,depth,ir = self.test_list[index]
-            test_id = color+' '+depth+' '+ir
+            color, depth, ir = self.test_list[index]
+            test_id = color + ' ' + depth + ' ' + ir
 
-        color = cv2.imread(os.path.join(DATA_ROOT, color),1)
-        depth = cv2.imread(os.path.join(DATA_ROOT, depth),1)
-        ir = cv2.imread(os.path.join(DATA_ROOT, ir),1)
+        color = cv2.imread(os.path.join(DATA_ROOT, color), 1)
+        depth = color.copy()
+        ir = color.copy()
 
-        color = cv2.resize(color,(RESIZE_SIZE,RESIZE_SIZE))
-        depth = cv2.resize(depth,(RESIZE_SIZE,RESIZE_SIZE))
-        ir = cv2.resize(ir,(RESIZE_SIZE,RESIZE_SIZE))
+        color = cv2.resize(color, (RESIZE_SIZE, RESIZE_SIZE))
+        depth = cv2.resize(depth, (RESIZE_SIZE, RESIZE_SIZE))
+        ir = cv2.resize(ir, (RESIZE_SIZE, RESIZE_SIZE))
 
         if self.mode == 'train':
-            color = color_augumentor(color,target_shape=(self.image_size, self.image_size, 3))
-            depth = depth_augumentor(depth,target_shape=(self.image_size, self.image_size, 3))
-            ir = ir_augumentor(ir,target_shape=(self.image_size, self.image_size, 3))
+            color = color_augumentor(color, target_shape=(self.image_size, self.image_size, 3))
+            depth = color_augumentor(depth, target_shape=(self.image_size, self.image_size, 3))
+            ir = color_augumentor(ir, target_shape=(self.image_size, self.image_size, 3))
 
-            color = cv2.resize(color, (self.image_size, self.image_size))
-            depth = cv2.resize(depth, (self.image_size, self.image_size))
-            ir = cv2.resize(ir, (self.image_size, self.image_size))
+            gray = cv2.cvtColor(color, cv2.COLOR_BGR2GRAY)
+            ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
+            lbp = calc_lbp(ir)
+            gray = cv2.resize(gray, (self.image_size, self.image_size))
+            ycrcb = cv2.resize(ycrcb, (self.image_size, self.image_size))
+            lbp = cv2.resize(lbp, (self.image_size, self.image_size))
 
-            image = np.concatenate([color.reshape([self.image_size, self.image_size, 3]),
-                                    depth.reshape([self.image_size, self.image_size, 3]),
-                                    ir.reshape([self.image_size, self.image_size, 3])],
+            image = np.concatenate([gray.reshape([self.image_size, self.image_size, 3]),
+                                    ycrcb.reshape([self.image_size, self.image_size, 3]),
+                                    lbp.reshape([self.image_size, self.image_size, 3])],
                                    axis=2)
 
             if random.randint(0, 1) == 0:
@@ -116,19 +120,22 @@ class FDDataset(Dataset):
             return torch.FloatTensor(image), torch.LongTensor(np.asarray(label).reshape([-1]))
 
         elif self.mode == 'val':
-            color = color_augumentor(color, target_shape=(self.image_size, self.image_size, 3),is_infer=True)
-            depth = depth_augumentor(depth, target_shape=(self.image_size, self.image_size, 3),is_infer=True)
-            ir = ir_augumentor(ir, target_shape=(self.image_size, self.image_size, 3),is_infer=True)
+            color = color_augumentor(color, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
+            depth = color_augumentor(depth, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
+            ir = color_augumentor(ir, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
             n = len(color)
 
-            color = np.concatenate(color, axis=0)
-            depth = np.concatenate(depth, axis=0)
-            ir = np.concatenate(ir, axis=0)
+            gray = cv2.cvtColor(color, cv2.COLOR_BGR2GRAY)
+            ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
+            lbp = calc_lbp(ir)
+            gray = cv2.resize(gray, (self.image_size, self.image_size))
+            ycrcb = cv2.resize(ycrcb, (self.image_size, self.image_size))
+            lbp = cv2.resize(lbp, (self.image_size, self.image_size))
 
-            image = np.concatenate([color.reshape([n,self.image_size, self.image_size, 3]),
-                                    depth.reshape([n,self.image_size, self.image_size, 3]),
-                                    ir.reshape([n,self.image_size, self.image_size, 3])],
-                                   axis=3)
+            image = np.concatenate([gray.reshape([self.image_size, self.image_size, 3]),
+                                    ycrcb.reshape([self.image_size, self.image_size, 3]),
+                                    lbp.reshape([self.image_size, self.image_size, 3])],
+                                   axis=2)
 
             image = np.transpose(image, (0, 3, 1, 2))
             image = image.astype(np.float32)
@@ -141,18 +148,21 @@ class FDDataset(Dataset):
 
         elif self.mode == 'test':
             color = color_augumentor(color, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
-            depth = depth_augumentor(depth, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
-            ir = ir_augumentor(ir, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
+            depth = color_augumentor(depth, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
+            ir = color_augumentor(ir, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
             n = len(color)
 
-            color = np.concatenate(color, axis=0)
-            depth = np.concatenate(depth, axis=0)
-            ir = np.concatenate(ir, axis=0)
+            gray = cv2.cvtColor(color, cv2.COLOR_BGR2GRAY)
+            ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
+            lbp = calc_lbp(ir)
+            gray = cv2.resize(gray, (self.image_size, self.image_size))
+            ycrcb = cv2.resize(ycrcb, (self.image_size, self.image_size))
+            lbp = cv2.resize(lbp, (self.image_size, self.image_size))
 
-            image = np.concatenate([color.reshape([n, self.image_size, self.image_size, 3]),
-                                    depth.reshape([n, self.image_size, self.image_size, 3]),
-                                    ir.reshape([n, self.image_size, self.image_size, 3])],
-                                   axis=3)
+            image = np.concatenate([gray.reshape([self.image_size, self.image_size, 3]),
+                                    ycrcb.reshape([self.image_size, self.image_size, 3]),
+                                    lbp.reshape([self.image_size, self.image_size, 3])],
+                                   axis=2)
 
             image = np.transpose(image, (0, 3, 1, 2))
             image = image.astype(np.float32)
@@ -166,7 +176,7 @@ class FDDataset(Dataset):
 
 # check #################################################################
 def run_check_train_data():
-    dataset = FDDataset(mode = 'train')
+    dataset = FDDataset(mode='train')
     print(dataset)
 
     num = len(dataset)
@@ -179,9 +189,8 @@ def run_check_train_data():
         if m > 100:
             break
 
+
 # main #################################################################
 if __name__ == '__main__':
-    print( '%s: calling main function ... ' % os.path.basename(__file__))
+    print('%s: calling main function ... ' % os.path.basename(__file__))
     run_check_train_data()
-
-

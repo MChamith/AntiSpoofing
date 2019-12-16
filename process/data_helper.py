@@ -2,11 +2,10 @@ import os
 import random
 from utils import *
 
+DATA_ROOT = r'/home/ubuntu/volume/SiW_release'
 
-DATA_ROOT = r'/data1/shentao/DATA/CVPR19_FaceAntiSpoofing'
-
-TRN_IMGS_DIR = DATA_ROOT + '/Training/'
-TST_IMGS_DIR = DATA_ROOT + '/Val/'
+TRN_IMGS_DIR = DATA_ROOT + '/Train/'
+TST_IMGS_DIR = DATA_ROOT + '/Test/'
 RESIZE_SIZE = 112
 
 def load_train_list():
@@ -21,7 +20,7 @@ def load_train_list():
 
 def load_val_list():
     list = []
-    f = open(DATA_ROOT + '/val_private_list.txt')
+    f = open(DATA_ROOT + '/val_list.txt')
     lines = f.readlines()
 
     for line in lines:
