@@ -17,7 +17,7 @@ class FDDataset(Dataset):
         self.modality = modality
         self.balance = balance
 
-        self.channels = 3
+        self.channels = 1
         self.train_image_path = TRN_IMGS_DIR
         self.test_image_path = TST_IMGS_DIR
         self.image_size = image_size
