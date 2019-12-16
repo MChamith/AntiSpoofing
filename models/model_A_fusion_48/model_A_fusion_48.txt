@@ -1,0 +1,6 @@
+	out_dir      = ./models/model_A_fusion_48
+
+	<additional comments>
+	  ... xxx baseline  ... 
+
+** dataset setting **
