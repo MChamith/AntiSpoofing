@@ -86,17 +86,20 @@ class FDDataset(Dataset):
         ir = cv2.resize(ir, (RESIZE_SIZE, RESIZE_SIZE))
 
         if self.mode == 'train':
-            color = color_augumentor(color, target_shape=(self.image_size, self.image_size, 3))
-            depth = color_augumentor(depth, target_shape=(self.image_size, self.image_size, 3))
-            ir = color_augumentor(ir, target_shape=(self.image_size, self.image_size, 3))
-            print('color shape ' + str(color.shape))
+            print('color shape before augmentor ' + str(color.shape))
             color = cv2.cvtColor(color, cv2.COLOR_BGR2GRAY)
             ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
             ycrcblbp = calc_lbp(ycrcb[:, :, 1])
             lbp = calc_lbp(cv2.cvtColor(ir, cv2.COLOR_BGR2GRAY))
-            color = cv2.resize(color, (self.image_size, self.image_size))
-            ycrcblbp = cv2.resize(ycrcblbp, (self.image_size, self.image_size))
-            lbp = cv2.resize(lbp, (self.image_size, self.image_size))
+
+            color = color_augumentor(color, target_shape=(self.image_size, self.image_size, 3))
+            ycrcblbp = color_augumentor(ycrcblbp, target_shape=(self.image_size, self.image_size, 3))
+            lbp = color_augumentor(lbp, target_shape=(self.image_size, self.image_size, 3))
+            print('color shape ' + str(color.shape))
+
+            # color = cv2.resize(color, (self.image_size, self.image_size))
+            # ycrcblbp = cv2.resize(ycrcblbp, (self.image_size, self.image_size))
+            # lbp = cv2.resize(lbp, (self.image_size, self.image_size))
 
             image = np.concatenate([color.reshape([self.image_size, self.image_size, 3]),
                                     ycrcblbp.reshape([self.image_size, self.image_size, 3]),
