@@ -93,7 +93,7 @@ class FDDataset(Dataset):
             print('color shape ' + str(color.shape))
             # color = cv2.cvtColor(color, cv2.COLOR_BGR2GRAY)
             ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
-            hsv = calc_lbp(cv2.cvtColor(ir, cv2.COLOR_BGR2HSV))
+            hsv = cv2.cvtColor(ir, cv2.COLOR_BGR2HSV)
 
 
             # color = cv2.resize(color, (self.image_size, self.image_size))
