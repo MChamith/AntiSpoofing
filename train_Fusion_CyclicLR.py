@@ -253,8 +253,8 @@ if __name__ == '__main__':
     parser.add_argument('--image_mode', type=str, default='fusion')
 
     parser.add_argument('--batch_size', type=int, default=128)
-    parser.add_argument('--cycle_num', type=int, default=10)
-    parser.add_argument('--cycle_inter', type=int, default=50)
+    parser.add_argument('--cycle_num', type=int, default=2)
+    parser.add_argument('--cycle_inter', type=int, default=2)
 
     parser.add_argument('--mode', type=str, default='train', choices=['train', 'infer_test'])
     parser.add_argument('--pretrained_model', type=str, default=None)
