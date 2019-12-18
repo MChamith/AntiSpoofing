@@ -72,6 +72,7 @@ class FDDataset(Dataset):
 
         elif self.mode == 'val':
             color, depth, ir, label = self.val_list[index]
+            print(self.val_list[index])
 
         elif self.mode == 'test':
             color, depth, ir = self.test_list[index]
@@ -127,7 +128,8 @@ class FDDataset(Dataset):
             depth = color_augumentor(depth, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
             ir = color_augumentor(ir, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
             n = len(color)
-
+            print('depth ' + str(depth))
+            print('depth shape ' + str(depth.shape))
             ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
             hsv = cv2.cvtColor(ir, cv2.COLOR_BGR2HSV)
 
