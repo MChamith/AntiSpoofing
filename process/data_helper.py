@@ -1,6 +1,6 @@
 import os
 import random
-from utils import *
+# from utils import *
 
 DATA_ROOT = r'/home/ubuntu/volume/SiW_release'
 
