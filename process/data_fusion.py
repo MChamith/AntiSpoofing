@@ -1,9 +1,9 @@
 import torch
 
-# from utils import *
-from augmentation import *
-from data_helper import *
-# from LbpExtraction import calc_lbp
+from utils import *
+from process.augmentation import *
+from process.data_helper import *
+from LbpExtraction import calc_lbp
 
 
 class FDDataset(Dataset):
