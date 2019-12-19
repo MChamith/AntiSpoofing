@@ -86,7 +86,7 @@ class FDDataset(Dataset):
         depth = cv2.resize(depth, (RESIZE_SIZE, RESIZE_SIZE))
         ir = cv2.resize(ir, (RESIZE_SIZE, RESIZE_SIZE))
 
-        if self.mode == 'train':
+        if self.mode == 'val':
             print('color shape before augmentor ' + str(color.shape))
             color = color_augumentor(color, target_shape=(self.image_size, self.image_size, 3))
             depth = color_augumentor(depth, target_shape=(self.image_size, self.image_size, 3))
@@ -126,7 +126,7 @@ class FDDataset(Dataset):
             label = int(label)
             return torch.FloatTensor(image), torch.LongTensor(np.asarray(label).reshape([-1]))
 
-        elif self.mode == 'val':
+        elif self.mode == 'train':
             color = color_augumentor(color, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
             depth = color_augumentor(depth, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
             ir = color_augumentor(ir, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
