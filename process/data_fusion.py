@@ -131,8 +131,8 @@ class FDDataset(Dataset):
             depth = color_augumentor(depth, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
             ir = color_augumentor(ir, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
             n = len(color)
-            print('depth ' + str(depth))
-            # print('depth shape ' + str(depth.shape))
+            # print('depth ' + str(depth))
+            print('depth type ' + str(type(depth)))
             ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
             hsv = cv2.cvtColor(ir, cv2.COLOR_BGR2HSV)
 
