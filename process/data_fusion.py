@@ -1,8 +1,8 @@
 import torch
 
 # from utils import *
-from process.augmentation import *
-from process.data_helper import *
+from augmentation import *
+from data_helper import *
 from LbpExtraction import calc_lbp
 
 
