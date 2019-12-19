@@ -141,9 +141,9 @@ class FDDataset(Dataset):
             # print('color sh/ape ' + str(type(depth)))
             # print('depth shape' + str(depth.shape))
 
-            image = np.concatenate([color.reshape([self.image_size, self.image_size, 3]),
-                                    ycrcb.reshape([self.image_size, self.image_size, 3]),
-                                    hsv.reshape([self.image_size, self.image_size, 3])],
+            image = np.concatenate([color.reshape([n, self.image_size, self.image_size, 3]),
+                                    ycrcb.reshape([n, self.image_size, self.image_size, 3]),
+                                    hsv.reshape([n, self.image_size, self.image_size, 3])],
                                    axis=3)
 
             image = np.transpose(image, (0, 3, 1, 2))
@@ -153,7 +153,6 @@ class FDDataset(Dataset):
 
             label = int(label)
             return torch.FloatTensor(image), torch.LongTensor(np.asarray(label).reshape([-1]))
-
 
         elif self.mode == 'test':
             color = color_augumentor(color, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
