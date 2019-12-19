@@ -173,7 +173,7 @@ class FDDataset(Dataset):
 
 # check #################################################################
 def run_check_train_data():
-    dataset = FDDataset(mode='train')
+    dataset = FDDataset(mode='val')
     print(dataset)
 
     num = len(dataset)
