@@ -97,7 +97,6 @@ class FDDataset(Dataset):
             ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
             hsv = cv2.cvtColor(ir, cv2.COLOR_BGR2HSV)
 
-
             # color = cv2.resize(color, (self.image_size, self.image_size))
             # ycrcblbp = cv2.resize(ycrcblbp, (self.image_size, self.image_size))
             # lbp = cv2.resize(lbp, (self.image_size, self.image_size))
@@ -125,20 +124,22 @@ class FDDataset(Dataset):
             return torch.FloatTensor(image), torch.LongTensor(np.asarray(label).reshape([-1]))
 
         elif self.mode == 'train':
-            color = color_augumentor(color, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
-            depth = color_augumentor(depth, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
-            ir = color_augumentor(ir, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
-            n = len(color)
-            color = np.concatenate(color, axis=0)
-            depth = np.concatenate(depth, axis=0)
-            ir = np.concatenate(ir, axis=0)
-            cv2.imwrite('color.jpg', color)
-            cv2.imwrite('depth.jpg', depth)
-            cv2.imwrite('ir.jpg', ir)
-            # print('color sh/ape ' + str(type(depth)))
-            print('depth shape' + str(depth.shape))
             ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
             hsv = cv2.cvtColor(ir, cv2.COLOR_BGR2HSV)
+
+            color = color_augumentor(color, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
+            ycrcb = color_augumentor(ycrcb, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
+            hsv = color_augumentor(hsv, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
+            n = len(color)
+
+            color = np.concatenate(color, axis=0)
+            ycrcb = np.concatenate(ycrcb, axis=0)
+            hsv = np.concatenate(hsv, axis=0)
+            # cv2.imwrite('color.jpg', color)
+            # cv2.imwrite('depth.jpg', depth)
+            # cv2.imwrite('ir.jpg', ir)
+            # print('color sh/ape ' + str(type(depth)))
+            # print('depth shape' + str(depth.shape))
 
             image = np.concatenate([color.reshape([self.image_size, self.image_size, 3]),
                                     ycrcb.reshape([self.image_size, self.image_size, 3]),
