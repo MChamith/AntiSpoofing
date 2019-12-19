@@ -72,7 +72,7 @@ class FDDataset(Dataset):
 
         elif self.mode == 'val':
             color, depth, ir, label = self.val_list[index]
-            print(self.val_list[index])
+            # print(self.val_list[index])
 
         elif self.mode == 'test':
             color, depth, ir = self.test_list[index]
@@ -86,16 +86,17 @@ class FDDataset(Dataset):
         depth = cv2.resize(depth, (RESIZE_SIZE, RESIZE_SIZE))
         ir = cv2.resize(ir, (RESIZE_SIZE, RESIZE_SIZE))
 
-        if self.mode == 'val':
-            print('color shape before augmentor ' + str(color.shape))
+        if self.mode == 'train':
+            # print('color shape before augmentor ' + str(color.shape))
+            ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
+            hsv = cv2.cvtColor(ir, cv2.COLOR_BGR2HSV)
             color = color_augumentor(color, target_shape=(self.image_size, self.image_size, 3))
-            depth = color_augumentor(depth, target_shape=(self.image_size, self.image_size, 3))
-            ir = color_augumentor(ir, target_shape=(self.image_size, self.image_size, 3))
+            ycrcb = color_augumentor(ycrcb, target_shape=(self.image_size, self.image_size, 3))
+            hsv = color_augumentor(hsv, target_shape=(self.image_size, self.image_size, 3))
 
             # print('color shape ' + str(color.shape))
             # color = cv2.cvtColor(color, cv2.COLOR_BGR2GRAY)
-            ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
-            hsv = cv2.cvtColor(ir, cv2.COLOR_BGR2HSV)
+
 
             # color = cv2.resize(color, (self.image_size, self.image_size))
             # ycrcblbp = cv2.resize(ycrcblbp, (self.image_size, self.image_size))
@@ -123,7 +124,7 @@ class FDDataset(Dataset):
             label = int(label)
             return torch.FloatTensor(image), torch.LongTensor(np.asarray(label).reshape([-1]))
 
-        elif self.mode == 'train':
+        elif self.mode == 'val':
             ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
             hsv = cv2.cvtColor(ir, cv2.COLOR_BGR2HSV)
 
