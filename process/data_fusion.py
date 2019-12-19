@@ -135,8 +135,8 @@ class FDDataset(Dataset):
             cv2.imwrite('color.jpg', color)
             cv2.imwrite('depth.jpg', depth)
             cv2.imwrite('ir.jpg', ir)
-            print('color type ' + str(type(depth)))
-            print('ir type ' + str(type(depth)))
+            # print('color sh/ape ' + str(type(depth)))
+            print('depth shape' + str(depth.shape))
             ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
             hsv = cv2.cvtColor(ir, cv2.COLOR_BGR2HSV)
 
