@@ -144,7 +144,7 @@ class FDDataset(Dataset):
             image = np.concatenate([color.reshape([self.image_size, self.image_size, 3]),
                                     ycrcb.reshape([self.image_size, self.image_size, 3]),
                                     hsv.reshape([self.image_size, self.image_size, 3])],
-                                   axis=2)
+                                   axis=3)
 
             image = np.transpose(image, (0, 3, 1, 2))
             image = image.astype(np.float32)
