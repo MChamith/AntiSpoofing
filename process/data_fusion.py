@@ -87,7 +87,7 @@ class FDDataset(Dataset):
         ir = cv2.resize(ir, (RESIZE_SIZE, RESIZE_SIZE))
 
         if self.mode == 'train':
-            # print('color shape before augmentor ' + str(color.shape))
+            print('color shape before augmentor ' + str(color.shape))
             color = color_augumentor(color, target_shape=(self.image_size, self.image_size, 3))
             depth = color_augumentor(depth, target_shape=(self.image_size, self.image_size, 3))
             ir = color_augumentor(ir, target_shape=(self.image_size, self.image_size, 3))
