@@ -156,13 +156,14 @@ class FDDataset(Dataset):
             return torch.FloatTensor(image), torch.LongTensor(np.asarray(label).reshape([-1]))
 
         elif self.mode == 'test':
-            color = color_augumentor(color, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
-            depth = color_augumentor(depth, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
-            ir = color_augumentor(ir, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
-            n = len(color)
-
             ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
             hsv = cv2.cvtColor(ir, cv2.COLOR_BGR2HSV)
+
+            color = color_augumentor(color, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
+            ycrcb = color_augumentor(ycrcb, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
+            hsv = color_augumentor(hsv, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
+            n = len(color)
+
 
             image = np.concatenate([color.reshape([self.image_size, self.image_size, 3]),
                                     ycrcb.reshape([self.image_size, self.image_size, 3]),
