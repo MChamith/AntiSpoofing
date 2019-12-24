@@ -144,6 +144,11 @@ def do_valid_test( net, test_loader, criterion ):
     for i, (input, truth) in enumerate(tqdm(test_loader)):
     # for input, truth in test_loader:
         b,n,c,w,h = input.size()
+        print('b' + str(b))
+        print('n' + str(b))
+        print('c' + str(b))
+        print('w' + str(b))
+        print('h' + str(b))
         input = input.view(b*n,c,w,h)
 
         input = input.cuda()
@@ -185,6 +190,27 @@ def do_valid_test( net, test_loader, criterion ):
     return valid_loss,[probs[:, 1], labels]
 
 def infer_test( net, test_loader):
+    valid_num  = 0
+    probs = []
+
+    for i, (input, truth) in enumerate(tqdm(test_loader)):
+        b,n,c,w,h = input.size()
+        input = input.view(b*n,c,w,h)
+        input = input.cuda()
+
+        with torch.no_grad():
+            logit,_,_   = net(input)
+            logit = logit.view(b,n,2)
+            logit = torch.mean(logit, dim = 1, keepdim = False)
+            prob = F.softmax(logit, 1)
+
+        valid_num += len(input)
+        probs.append(prob.data.cpu().numpy())
+
+    probs = np.concatenate(probs)
+    return probs[:, 1]
+
+def infer( net, test_loader):
     valid_num  = 0
     probs = []
 
