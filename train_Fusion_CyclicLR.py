@@ -233,7 +233,7 @@ def run_test(config, dir):
     # print('%0.6f  %0.6f  %0.3f  (%0.3f) \n' % (valid_loss[0], valid_loss[1], valid_loss[2], valid_loss[3]))
 
     print('infer!!!!!!!!!')
-    filename = '/home/ubuntu/volume/data/IMG_1800.MOV'
+    filename = '/home/ubuntu/volume/data/IMG_1759.MOV'
     cap = cv2.VideoCapture(filename)
     # face_cascade = cv2.CascadeClassifier(
     #     '/home/chamith/Documents/Project/msid_server/venv/lib/python3.6/site-packages/cv2/data'
