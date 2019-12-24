@@ -144,9 +144,11 @@ def do_valid_test( net, test_loader, criterion ):
     for i, (input, truth) in enumerate(tqdm(test_loader)):
     # for input, truth in test_loader:
         b,n,c,w,h = input.size()
-        print('input' + str(input))
-        print('truth' + str(truth))
-        print('i' + str(i))
+        print('b' + str(b))
+        print('n' + str(n))
+        print('c' + str(c))
+        print('w' + str(w))
+        print('h' + str(h))
         input = input.view(b*n,c,w,h)
 
         input = input.cuda()
