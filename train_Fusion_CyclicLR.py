@@ -226,8 +226,8 @@ def run_test(config, dir):
     criterion = softmax_cross_entropy_criterion
     net.eval()
 
-    valid_loss, out = do_valid_test(net, valid_loader, criterion)
-    print('%0.6f  %0.6f  %0.3f  (%0.3f) \n' % (valid_loss[0], valid_loss[1], valid_loss[2], valid_loss[3]))
+    # valid_loss, out = do_valid_test(net, valid_loader, criterion)
+    # print('%0.6f  %0.6f  %0.3f  (%0.3f) \n' % (valid_loss[0], valid_loss[1], valid_loss[2], valid_loss[3]))
 
     print('infer!!!!!!!!!')
     filename = '/home/ubuntu/volume/data/IMG_0109.MOV'
