@@ -242,7 +242,7 @@ def run_test(config, dir):
         ret, frame = cap.read()
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-        print('faces ' + str(faces))
+        # print('faces ' + str(faces))
         if faces is not None:
             # if True:
             for face in faces:
@@ -252,7 +252,7 @@ def run_test(config, dir):
                 w = face[2]
                 h = face[3]
                 color = frame[y:y + h, x:x + w]
-                print('color is' + str(color))
+                # print('color is' + str(color))
         # color = cv2.imrea d(os.path.join(DATA_ROOT, color), 1)
                 depth = color.copy()
                 ir = color.copy()
