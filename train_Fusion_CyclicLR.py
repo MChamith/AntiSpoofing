@@ -322,6 +322,10 @@ def run_test(config, dir):
         hsv = color_augumentor(hsv, target_shape=(48, 48,3), is_infer=True)
         n = len(color)
 
+        color = np.concatenate(color, axis=0)
+        ycrcb = np.concatenate(ycrcb, axis=0)
+        hsv = np.concatenate(hsv, axis=0)
+
         image = np.concatenate([color.reshape([48,48, 3]),
                                 ycrcb.reshape([48,48, 3]),
                                 hsv.reshape([48,48, 3])],
