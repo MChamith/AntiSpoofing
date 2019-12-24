@@ -317,19 +317,19 @@ def run_test(config, dir):
         ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
         hsv = cv2.cvtColor(ir, cv2.COLOR_BGR2HSV)
 
-        color = color_augumentor(color, target_shape=(128, 128,3), is_infer=True)
-        ycrcb = color_augumentor(ycrcb, target_shape=(128, 128,3), is_infer=True)
-        hsv = color_augumentor(hsv, target_shape=(128, 128,3), is_infer=True)
+        color = color_augumentor(color, target_shape=(48, 48,3), is_infer=True)
+        ycrcb = color_augumentor(ycrcb, target_shape=(48, 48,3), is_infer=True)
+        hsv = color_augumentor(hsv, target_shape=(48, 48,3), is_infer=True)
         n = len(color)
 
-        image = np.concatenate([color.reshape([128,128, 3]),
-                                ycrcb.reshape([128,128, 3]),
-                                hsv.reshape([128,128, 3])],
+        image = np.concatenate([color.reshape([48,48, 3]),
+                                ycrcb.reshape([48,48, 3]),
+                                hsv.reshape([48,48, 3])],
                                axis=2)
 
         image = np.transpose(image, (0, 3, 1, 2))
         image = image.astype(np.float32)
-        image = image.reshape([n, 3 * 3, 128,128])
+        image = image.reshape([n, 3 * 3, 48,48])
         image = image / 255.0
 
 
@@ -355,7 +355,7 @@ if __name__ == '__main__':
     parser.add_argument('--image_size', type=int, default=64)
     parser.add_argument('--image_mode', type=str, default='fusion')
 
-    parser.add_argument('--batch_size', type=int, default=128)
+    parser.add_argument('--batch_size', type=int, default=48)
     parser.add_argument('--cycle_num', type=int, default=2)
     parser.add_argument('--cycle_inter', type=int, default=2)
 
