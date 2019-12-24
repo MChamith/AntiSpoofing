@@ -2,6 +2,8 @@ import os
 # os.environ['CUDA_VISIBLE_DEVICES'] =  '6'
 import sys
 
+from numpy import mean
+
 from process.data_helper import submission
 import cv2
 
@@ -355,7 +357,7 @@ def run_test(config, dir):
 
 
                 out = infer(net,torch.FloatTensor(image) )
-                print('done' + str(out))
+                print('done' + str(mean(out)))
         # else:
         #     continue
     # submission(out, save_dir + '_noTTA.txt', mode='test')
