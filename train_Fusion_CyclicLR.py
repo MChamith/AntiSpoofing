@@ -236,7 +236,7 @@ def run_test(config, dir):
     # face_cascade = cv2.CascadeClassifier(
     #     '/home/chamith/Documents/Project/msid_server/venv/lib/python3.6/site-packages/cv2/data'
     #     '/haarcascade_frontalface_default.xml')
-    face_cascade = cv2.CascadeClassifier('/usr/local/lib/python3.6/dist-packages/cv2/data/haarcascade_frontalface_default.xml')
+    face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
     while True:
         ret, frame = cap.read()
