@@ -251,7 +251,7 @@ def run_test(config, dir):
                 w = face[2]
                 h = face[3]
                 color = frame[y:y + h, x:x + w]
-                print(color)
+                print('color ' + str(color))
         # color = cv2.imrea d(os.path.join(DATA_ROOT, color), 1)
                 depth = color.copy()
                 ir = color.copy()
@@ -355,8 +355,8 @@ def run_test(config, dir):
 
                 out = infer(net,torch.FloatTensor(image) )
                 print('done' + str(out))
-        else:
-            continue
+        # else:
+        #     continue
     # submission(out, save_dir + '_noTTA.txt', mode='test')
 
 
