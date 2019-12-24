@@ -337,7 +337,7 @@ def run_test(config, dir):
         image = image / 255.0
 
 
-        out = infer_test(net,torch.FloatTensor(image) )
+        out = infer(net,torch.FloatTensor(image) )
         print('done' + str(out))
 
     # submission(out, save_dir + '_noTTA.txt', mode='test')
