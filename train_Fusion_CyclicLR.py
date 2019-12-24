@@ -211,7 +211,7 @@ def run_test(config, dir):
                               fold_index=config.train_fold_index)
     valid_loader = DataLoader(valid_dataset,
                               shuffle=False,
-                              batch_size=config.batch_size,
+                              batch_size=1,
                               drop_last=False,
                               num_workers=8)
 
