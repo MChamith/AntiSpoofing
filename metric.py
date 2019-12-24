@@ -217,7 +217,9 @@ def infer( net, test_loader):
     probs = []
 
     for i, input in enumerate(tqdm(test_loader)):
-        b,n,c,w,h = input.size()
+        c,w,h = input.size()
+        b =1
+        n= 36
         input = input.view(b*n,c,w,h)
         input = input.cuda()
 
