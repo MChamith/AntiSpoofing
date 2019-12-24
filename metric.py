@@ -219,7 +219,7 @@ def infer( net, test_loader):
     for i, input in enumerate(tqdm(test_loader)):
         c,w,h = input.size()
         b =1
-        n= 36
+        n= 1
         input = input.view(b*n,c,w,h)
         input = input.cuda()
 
