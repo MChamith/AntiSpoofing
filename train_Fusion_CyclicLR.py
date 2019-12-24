@@ -251,109 +251,110 @@ def run_test(config, dir):
                 w = face[2]
                 h = face[3]
                 color = frame[y:y + h, x:x + w]
+                print(color)
         # color = cv2.imrea d(os.path.join(DATA_ROOT, color), 1)
-            depth = color.copy()
-            ir = color.copy()
+                depth = color.copy()
+                ir = color.copy()
 
-            color = cv2.resize(color, (RESIZE_SIZE, RESIZE_SIZE))
-            depth = cv2.resize(depth, (RESIZE_SIZE, RESIZE_SIZE))
-            ir = cv2.resize(ir, (RESIZE_SIZE, RESIZE_SIZE))
+                color = cv2.resize(color, (RESIZE_SIZE, RESIZE_SIZE))
+                depth = cv2.resize(depth, (RESIZE_SIZE, RESIZE_SIZE))
+                ir = cv2.resize(ir, (RESIZE_SIZE, RESIZE_SIZE))
 
-            # if self.mode == 'train':
-            #     # print('color shape before augmentor ' + str(color.shape))
-            #     ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
-            #     hsv = cv2.cvtColor(ir, cv2.COLOR_BGR2HSV)
-            #     color = color_augumentor(color, target_shape=(self.image_size, self.image_size, 3))
-            #     ycrcb = color_augumentor(ycrcb, target_shape=(self.image_size, self.image_size, 3))
-            #     hsv = color_augumentor(hsv, target_shape=(self.image_size, self.image_size, 3))
-            #
-            #     # print('color shape ' + str(color.shape))
-            #     # color = cv2.cvtColor(color, cv2.COLOR_BGR2GRAY)
-            #
-            #
-            #     # color = cv2.resize(color, (self.image_size, self.image_size))
-            #     # ycrcblbp = cv2.resize(ycrcblbp, (self.image_size, self.image_size))
-            #     # lbp = cv2.resize(lbp, (self.image_size, self.image_size))
-            #
-            #     image = np.concatenate([color.reshape([self.image_size, self.image_size, 3]),
-            #                             ycrcb.reshape([self.image_size, self.image_size, 3]),
-            #                             hsv.reshape([self.image_size, self.image_size, 3])],
-            #                            axis=2)
-            #
-            #     if random.randint(0, 1) == 0:
-            #         random_pos = random.randint(0, 2)
-            #         if random.randint(0, 1) == 0:
-            #             image[:, :, 3 * random_pos:3 * (random_pos + 1)] = 0
-            #         else:
-            #             for i in range(3):
-            #                 if i != random_pos:
-            #                     image[:, :, 3 * i:3 * (i + 1)] = 0
-            #
-            #     image = np.transpose(image, (2, 0, 1))
-            #     image = image.astype(np.float32)
-            #     image = image.reshape([self.channels * 3, self.image_size, self.image_size])
-            #     image = image / 255.0
-            #
-            #     label = int(label)
-            #     return torch.FloatTensor(image), torch.LongTensor(np.asarray(label).reshape([-1]))
-            #
-            # elif self.mode == 'val':
-            #     ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
-            #     hsv = cv2.cvtColor(ir, cv2.COLOR_BGR2HSV)
-            #
-            #     color = color_augumentor(color, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
-            #     ycrcb = color_augumentor(ycrcb, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
-            #     hsv = color_augumentor(hsv, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
-            #     n = len(color)
-            #
-            #     color = np.concatenate(color, axis=0)
-            #     ycrcb = np.concatenate(ycrcb, axis=0)
-            #     hsv = np.concatenate(hsv, axis=0)
-            #     # cv2.imwrite('color.jpg', color)
-            #     # cv2.imwrite('depth.jpg', depth)
-            #     # cv2.imwrite('ir.jpg', ir)
-            #     # print('color sh/ape ' + str(type(depth)))
-            #     # print('depth shape' + str(depth.shape))
-            #
-            #     image = np.concatenate([color.reshape([n, self.image_size, self.image_size, 3]),
-            #                             ycrcb.reshape([n, self.image_size, self.image_size, 3]),
-            #                             hsv.reshape([n, self.image_size, self.image_size, 3])],
-            #                            axis=3)
-            #
-            #     image = np.transpose(image, (0, 3, 1, 2))
-            #     image = image.astype(np.float32)
-            #     image = image.reshape([n, self.channels * 3, self.image_size, self.image_size])
-            #     image = image / 255.0
-            #
-            #     label = int(label)
-            #     return torch.FloatTensor(image), torch.LongTensor(np.asarray(label).reshape([-1]))
-            #
-            # elif self.mode == 'test':
-            ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
-            hsv = cv2.cvtColor(ir, cv2.COLOR_BGR2HSV)
+                # if self.mode == 'train':
+                #     # print('color shape before augmentor ' + str(color.shape))
+                #     ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
+                #     hsv = cv2.cvtColor(ir, cv2.COLOR_BGR2HSV)
+                #     color = color_augumentor(color, target_shape=(self.image_size, self.image_size, 3))
+                #     ycrcb = color_augumentor(ycrcb, target_shape=(self.image_size, self.image_size, 3))
+                #     hsv = color_augumentor(hsv, target_shape=(self.image_size, self.image_size, 3))
+                #
+                #     # print('color shape ' + str(color.shape))
+                #     # color = cv2.cvtColor(color, cv2.COLOR_BGR2GRAY)
+                #
+                #
+                #     # color = cv2.resize(color, (self.image_size, self.image_size))
+                #     # ycrcblbp = cv2.resize(ycrcblbp, (self.image_size, self.image_size))
+                #     # lbp = cv2.resize(lbp, (self.image_size, self.image_size))
+                #
+                #     image = np.concatenate([color.reshape([self.image_size, self.image_size, 3]),
+                #                             ycrcb.reshape([self.image_size, self.image_size, 3]),
+                #                             hsv.reshape([self.image_size, self.image_size, 3])],
+                #                            axis=2)
+                #
+                #     if random.randint(0, 1) == 0:
+                #         random_pos = random.randint(0, 2)
+                #         if random.randint(0, 1) == 0:
+                #             image[:, :, 3 * random_pos:3 * (random_pos + 1)] = 0
+                #         else:
+                #             for i in range(3):
+                #                 if i != random_pos:
+                #                     image[:, :, 3 * i:3 * (i + 1)] = 0
+                #
+                #     image = np.transpose(image, (2, 0, 1))
+                #     image = image.astype(np.float32)
+                #     image = image.reshape([self.channels * 3, self.image_size, self.image_size])
+                #     image = image / 255.0
+                #
+                #     label = int(label)
+                #     return torch.FloatTensor(image), torch.LongTensor(np.asarray(label).reshape([-1]))
+                #
+                # elif self.mode == 'val':
+                #     ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
+                #     hsv = cv2.cvtColor(ir, cv2.COLOR_BGR2HSV)
+                #
+                #     color = color_augumentor(color, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
+                #     ycrcb = color_augumentor(ycrcb, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
+                #     hsv = color_augumentor(hsv, target_shape=(self.image_size, self.image_size, 3), is_infer=True)
+                #     n = len(color)
+                #
+                #     color = np.concatenate(color, axis=0)
+                #     ycrcb = np.concatenate(ycrcb, axis=0)
+                #     hsv = np.concatenate(hsv, axis=0)
+                #     # cv2.imwrite('color.jpg', color)
+                #     # cv2.imwrite('depth.jpg', depth)
+                #     # cv2.imwrite('ir.jpg', ir)
+                #     # print('color sh/ape ' + str(type(depth)))
+                #     # print('depth shape' + str(depth.shape))
+                #
+                #     image = np.concatenate([color.reshape([n, self.image_size, self.image_size, 3]),
+                #                             ycrcb.reshape([n, self.image_size, self.image_size, 3]),
+                #                             hsv.reshape([n, self.image_size, self.image_size, 3])],
+                #                            axis=3)
+                #
+                #     image = np.transpose(image, (0, 3, 1, 2))
+                #     image = image.astype(np.float32)
+                #     image = image.reshape([n, self.channels * 3, self.image_size, self.image_size])
+                #     image = image / 255.0
+                #
+                #     label = int(label)
+                #     return torch.FloatTensor(image), torch.LongTensor(np.asarray(label).reshape([-1]))
+                #
+                # elif self.mode == 'test':
+                ycrcb = cv2.cvtColor(depth, cv2.COLOR_BGR2YCR_CB)
+                hsv = cv2.cvtColor(ir, cv2.COLOR_BGR2HSV)
 
-            color = color_augumentor(color, target_shape=(48, 48,3), is_infer=True)
-            ycrcb = color_augumentor(ycrcb, target_shape=(48, 48,3), is_infer=True)
-            hsv = color_augumentor(hsv, target_shape=(48, 48,3), is_infer=True)
-            n = len(color)
+                color = color_augumentor(color, target_shape=(48, 48,3), is_infer=True)
+                ycrcb = color_augumentor(ycrcb, target_shape=(48, 48,3), is_infer=True)
+                hsv = color_augumentor(hsv, target_shape=(48, 48,3), is_infer=True)
+                n = len(color)
 
-            color = np.concatenate(color, axis=0)
-            ycrcb = np.concatenate(ycrcb, axis=0)
-            hsv = np.concatenate(hsv, axis=0)
+                color = np.concatenate(color, axis=0)
+                ycrcb = np.concatenate(ycrcb, axis=0)
+                hsv = np.concatenate(hsv, axis=0)
 
-            image = np.concatenate([color.reshape([n,48,48, 3]),
-                                    ycrcb.reshape([n,48,48, 3]),
-                                    hsv.reshape([n,48,48, 3])],
-                                   axis=2)
+                image = np.concatenate([color.reshape([n,48,48, 3]),
+                                        ycrcb.reshape([n,48,48, 3]),
+                                        hsv.reshape([n,48,48, 3])],
+                                       axis=2)
 
-            image = np.transpose(image, (0, 3, 1, 2))
-            image = image.astype(np.float32)
-            image = image.reshape([n, 3 * 3, 48,48])
-            image = image / 255.0
+                image = np.transpose(image, (0, 3, 1, 2))
+                image = image.astype(np.float32)
+                image = image.reshape([n, 3 * 3, 48,48])
+                image = image / 255.0
 
 
-            out = infer(net,torch.FloatTensor(image) )
-            print('done' + str(out))
+                out = infer(net,torch.FloatTensor(image) )
+                print('done' + str(out))
         else:
             continue
     # submission(out, save_dir + '_noTTA.txt', mode='test')
