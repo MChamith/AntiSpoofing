@@ -235,8 +235,8 @@ def run_test(config, dir):
 
     while True:
         ret, color = cap.read()
-
-        # color = cv2.imread(os.path.join(DATA_ROOT, color), 1)
+        print('color shape ' + str(color.shape))
+        # color = cv2.imrea d(os.path.join(DATA_ROOT, color), 1)
         depth = color.copy()
         ir = color.copy()
 
