@@ -194,7 +194,9 @@ def infer_test( net, test_loader):
     probs = []
 
     for i, (input, truth) in enumerate(tqdm(test_loader)):
-        b,n,c,w,h = input.size()
+        c,w,h = input.size()
+        b = 1
+        n = 36
         input = input.view(b*n,c,w,h)
         input = input.cuda()
 
