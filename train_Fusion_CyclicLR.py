@@ -357,7 +357,8 @@ def run_test(config, dir):
 
 
                 out = infer(net,torch.FloatTensor(image) )
-                print('done' + str(mean(out)))
+                print('probabilities ' + str(out))
+                print('done mean' + str(mean(out)))
         # else:
         #     continue
     # submission(out, save_dir + '_noTTA.txt', mode='test')
